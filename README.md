@@ -10,6 +10,7 @@ an OVS bridge, adds NAT rules and starts a dnsmasq instance.
 ### Installation
 
 Run:
+
     $ sudo cp ovs-with-nat-mode.sh /usr/local/bin
     $ sudo cp init /etc/init/ovs-nat.conf
     $ sudo cp ovs-nat.conf /etc/default/ovs-nat
@@ -22,6 +23,7 @@ All the configuration is stored in the /etc/default/ovs-nat.conf file.
 ### Using it
 
 Run:
+
     $ sudo start ovs-nat
 
 You can now plug your virtual machines to the management and data bridges using 
