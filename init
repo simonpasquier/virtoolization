@@ -1,0 +1,11 @@
+# ovs-with-nat-mode - configure Open vSwitch
+#
+# This task launches an Open vSwitch instance that makes it possible 
+# to use OVS with libvirt in NAT mode.
+
+description     "start Open vSwitch in NAT mode"
+
+task
+
+exec /usr/local/bin/ovs-with-nat-mode.sh
+
