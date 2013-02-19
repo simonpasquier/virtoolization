@@ -3,15 +3,16 @@
 # behind NAT
 set -e
 if [[ -n "${DEBUG}" ]]; then
-    set -o +hist
+    set -x
 fi
 
-if [ $(id -u) != 1 ]; then
+if [ $(id -u) != "0" ]; then
+    echo $(id -u)
     echo "Must be run as root"
     exit 1
 fi
 DNSMASQ_BIN=$(which dnsmasq)
-if [ -n ${DNSMASQ_BIN} ]; then
+if [ -z "${DNSMASQ_BIN}" ]; then
     echo "dnsmasq should be installed"
     exit 1
 fi
@@ -63,10 +64,10 @@ fi
 # Start dnsmasq on the management network
 DNSMASQ_PID=/tmp/dnsmasq.${MGMT_BRIDGE}.pid
 if [ -r ${DNSMASQ_PID} ]; then
-    kill $(cat ${DNSMASQ_PID})
+    kill $(cat ${DNSMASQ_PID}) || true
     rm ${DNSMASQ_PID}
 fi
-${DNSMASQ_BIN} --strict-order --bind-interfaces --except-interface lo --listen-address ${MGMT_BRIDGE_IP} \
+${DNSMASQ_BIN} --strict-order --except-interface lo --listen-address ${MGMT_BRIDGE_IP} \
  --dhcp-range ${MGMT_DHCP_RANGE},120 --dhcp-leasefile=/tmp/dnsmasq.${MGMT_BRIDGE}.leases \
  --dhcp-lease-max=253 --dhcp-no-override --pid=${DNSMASQ_PID}
 
